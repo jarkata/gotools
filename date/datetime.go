@@ -31,7 +31,7 @@ func ParseBasicDate(date string) *time.Time {
 可解析日期为yyyyMMddHHmmss
 */
 func ParseStdDateTime(date string) *time.Time {
-	t, err := time.Parse(IsoDateTime, date)
+	t, err := time.Parse(yyyyMMddHHmmss, date)
 	if err != nil {
 		logger.Info("ERROR", err)
 		return nil
@@ -44,7 +44,7 @@ func ParseStdDateTime(date string) *time.Time {
 可解析日期为yyyy-MM-dd HH:mm:ss
 */
 func ParseIsoDateTime(datetime string) *time.Time {
-	t, err := time.Parse(yyyyMMddHHmmss, datetime)
+	t, err := time.Parse(IsoDateTime, datetime)
 	if err != nil {
 		logger.Info("ERROR", err)
 		return nil

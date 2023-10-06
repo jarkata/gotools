@@ -26,6 +26,10 @@ func ParseBasicDate(date string) *time.Time {
 	return &t
 }
 
+/*
+*
+可解析日期为yyyyMMddHHmmss
+*/
 func ParseStdDateTime(date string) *time.Time {
 	t, err := time.Parse(IsoDateTime, date)
 	if err != nil {

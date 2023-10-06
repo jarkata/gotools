@@ -3,7 +3,7 @@ package date
 import (
 	"time"
 
-	"gitee.com/tasphere/gotools/logger"
+	"github.com/jarkata/gotools/logger"
 )
 
 const (
@@ -26,7 +26,7 @@ func ParseBasicDate(date string) *time.Time {
 	return &t
 }
 
-func ParseISODateTime(date string) *time.Time {
+func ParseStdDateTime(date string) *time.Time {
 	t, err := time.Parse(IsoDateTime, date)
 	if err != nil {
 		logger.Info("ERROR", err)
@@ -40,7 +40,7 @@ func ParseISODateTime(date string) *time.Time {
 可解析日期为yyyy-MM-dd HH:mm:ss
 */
 func ParseIsoDateTime(datetime string) *time.Time {
-	t, err := time.Parse(IsoDateTime, datetime)
+	t, err := time.Parse(yyyyMMddHHmmss, datetime)
 	if err != nil {
 		logger.Info("ERROR", err)
 		return nil

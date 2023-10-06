@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gitee.com/tasphere/gotools/tid"
+	"github.com/jarkata/gotools/tid"
 )
 
 func TestGettime(t *testing.T) {

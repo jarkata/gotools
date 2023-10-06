@@ -3,7 +3,7 @@ package logger_test
 import (
 	"testing"
 
-	"gitee.com/tasphere/gotools/logger"
+	"github.com/jarkata/gotools/logger"
 )
 
 func TestInfo(t *testing.T) {

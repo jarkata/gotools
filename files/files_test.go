@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gitee.com/tasphere/gotools/files"
+	"github.com/jarkata/gotools/files"
 )
 
 func TestGetWd(t *testing.T) {

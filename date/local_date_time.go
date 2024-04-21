@@ -13,6 +13,10 @@ func New(t time.Time) LocalTime {
 	return LocalTime{t}
 }
 
+func (t LocalTime) ToTime() time.Time {
+	return t.Time
+}
+
 /*
 *
 格式化日期

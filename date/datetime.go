@@ -1,16 +1,69 @@
 package date
 
 import (
+	"strings"
 	"time"
 
 	"github.com/jarkata/gotools/logger"
 )
 
 const (
-	yyyyMMddHHmmss = "20060102150405"
-	IsoDateTime    = "2006-01-02 15:04:05"
-	BasicDate      = "20060102"
+	yyyyMMddHHmmss  = "20060102150405"
+	IsoDateTime     = "2006-01-02 15:04:05"
+	IsoDateTime_1   = "2006-01-02T15:04:05"
+	IsoDateTime_2_1 = "2006-01-02T15:04:05.999"
+	IsoDateTime_2_2 = "2006-01-02 15:04:05.999"
+	IsoDateTime_3_1 = "2006-01-02T15:04:05.999Z"
+	IsoDateTime_3_2 = "2006-01-02 15:04:05.999Z"
+	BasicDate       = "20060102"
 )
+
+/*
+*
+解析以下格式的数据
+
+	yyyyMMddHHmmss  = "20060102150405"
+	IsoDateTime     = "2006-01-02 15:04:05"
+	IsoDateTime_1   = "2006-01-02T15:04:05"
+	IsoDateTime_2_1 = "2006-01-02T15:04:05.999"
+	IsoDateTime_2_2 = "2006-01-02 15:04:05.999"
+	IsoDateTime_3_1 = "2006-01-02T15:04:05.999Z"
+	IsoDateTime_3_2 = "2006-01-02 15:04:05.999Z"
+	BasicDate       = "20060102"
+*/
+func ParseDateTime(date string) (time.Time, error) {
+	tmpValue := date
+	valueLen := len(tmpValue)
+	if valueLen == 8 {
+		return time.Parse(BasicDate, tmpValue)
+	} else if valueLen == 10 {
+		return time.Parse(time.DateOnly, tmpValue)
+	} else if valueLen == 14 {
+		return time.Parse(yyyyMMddHHmmss, tmpValue)
+	} else if valueLen == 19 {
+		index := strings.IndexByte(tmpValue, 'T')
+		if index > 0 {
+			return time.Parse(IsoDateTime_1, tmpValue)
+		} else {
+			return time.Parse(time.DateTime, tmpValue)
+		}
+	} else if valueLen == 23 {
+		index := strings.IndexByte(tmpValue, 'T')
+		if index > 0 {
+			return time.Parse(IsoDateTime_2_1, tmpValue)
+		} else {
+			return time.Parse(IsoDateTime_2_2, tmpValue)
+		}
+	} else if valueLen == 24 {
+		index := strings.IndexByte(tmpValue, 'T')
+		if index > 0 {
+			return time.Parse(IsoDateTime_3_1, tmpValue)
+		} else {
+			return time.Parse(IsoDateTime_3_2, tmpValue)
+		}
+	}
+	return time.Time{}, nil
+}
 
 /*
 *

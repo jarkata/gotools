@@ -2,6 +2,7 @@ package date
 
 import (
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -24,7 +25,7 @@ yyyy-MM-dd HH:mm:ss
 */
 func (t LocalTime) MarshalJSON() ([]byte, error) {
 	//格式化秒
-	return []byte(FormatIsoDateTime(t.Time)), nil
+	return []byte(fmt.Sprintf("\"%v\"", FormatIsoDateTime(t.Time))), nil
 }
 
 /** 解析JSON */

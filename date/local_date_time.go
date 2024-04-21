@@ -9,7 +9,7 @@ type LocalTime struct {
 	time.Time
 }
 
-func New(t time.Time) LocalTime {
+func NewLocalTime(t time.Time) LocalTime {
 	return LocalTime{t}
 }
 

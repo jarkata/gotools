@@ -17,7 +17,8 @@ func TestParseDateTime(t *testing.T) {
 }
 
 type Demo struct {
-	Date date.LocalDate `json:"date"`
+	Date      date.LocalDate `json:"date"`
+	LocalTime date.LocalTime `json:"localTime"`
 }
 
 func TestParseJsonLocalDate(t *testing.T) {
@@ -30,5 +31,24 @@ func TestParseJsonLocalDate(t *testing.T) {
 	slog.Error("", "", err)
 
 	slog.Info("", "本地时间", demo.Date)
+}
+
+func TestParseTime(t *testing.T) {
+	fmt.Println(date.ParseTime("12:01:40"))
+	fmt.Println(date.ParseTime("120230"))
+	fmt.Println(date.ParseTime("1202"))
+}
+func TestJsonTime(t *testing.T) {
+	demo := Demo{LocalTime: date.NewLocalTime(time.Now())}
+	jsonBytes, _ := json.Marshal(demo)
+	fmt.Println(string(jsonBytes))
+}
+func TestParseJsonTime(t *testing.T) {
+	demo := Demo{LocalTime: date.NewLocalTime(time.Now())}
+	jsonBytes, _ := json.Marshal(demo)
+	fmt.Println(string(jsonBytes))
+	demo2 := Demo{}
+	json.Unmarshal(jsonBytes, &demo2)
+	slog.Info("", "解析的数据", demo2)
 
 }

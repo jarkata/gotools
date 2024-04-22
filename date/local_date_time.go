@@ -6,15 +6,15 @@ import (
 	"time"
 )
 
-type LocalTime struct {
+type LocalDateTime struct {
 	time.Time
 }
 
-func NewLocalTime(t time.Time) LocalTime {
-	return LocalTime{t}
+func NewLocalDateTime(t time.Time) LocalDateTime {
+	return LocalDateTime{t}
 }
 
-func (t LocalTime) ToTime() time.Time {
+func (t LocalDateTime) ToTime() time.Time {
 	return t.Time
 }
 
@@ -23,13 +23,13 @@ func (t LocalTime) ToTime() time.Time {
 格式化日期
 yyyy-MM-dd HH:mm:ss
 */
-func (t LocalTime) MarshalJSON() ([]byte, error) {
+func (t LocalDateTime) MarshalJSON() ([]byte, error) {
 	//格式化秒
 	return []byte(fmt.Sprintf("\"%v\"", FormatIsoDateTime(t.Time))), nil
 }
 
 /** 解析JSON */
-func (t *LocalTime) UnmarshalJSON(data []byte) error {
+func (t *LocalDateTime) UnmarshalJSON(data []byte) error {
 	if len(data) < 1 {
 		return errors.New("param invalid")
 	}

@@ -1,6 +1,7 @@
 package date
 
 import (
+	"errors"
 	"strings"
 	"time"
 
@@ -16,6 +17,8 @@ const (
 	IsoDateTime_3_1 = "2006-01-02T15:04:05.999Z"
 	IsoDateTime_3_2 = "2006-01-02 15:04:05.999Z"
 	BasicDate       = "20060102"
+	BasicTime       = "150405"
+	BasicTime_1     = "1504"
 )
 
 /*
@@ -63,6 +66,17 @@ func ParseDateTime(date string) (time.Time, error) {
 		}
 	}
 	return time.Time{}, nil
+}
+
+func ParseTime(timeValue string) (time.Time, error) {
+	if len(timeValue) == 8 {
+		return time.Parse(time.TimeOnly, timeValue)
+	} else if len(timeValue) == 6 {
+		return time.Parse(BasicTime, timeValue)
+	} else if len(timeValue) == 4 {
+		return time.Parse(BasicTime_1, timeValue)
+	}
+	return time.Time{}, errors.ErrUnsupported
 }
 
 /*
@@ -121,6 +135,15 @@ return date style : yyyy-MM-dd
 */
 func FormatDateOnly(date time.Time) string {
 	return date.Format(time.DateOnly)
+}
+
+/*
+*
+return date style : 15:04:05 HH:mm:ss
+*
+*/
+func FormatTimeOnly(date time.Time) string {
+	return date.Format(time.TimeOnly)
 }
 
 /*

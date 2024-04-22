@@ -116,6 +116,15 @@ func FormatBasicDate(date time.Time) string {
 
 /*
 *
+return date style : yyyy-MM-dd
+*
+*/
+func FormatDateOnly(date time.Time) string {
+	return date.Format(time.DateOnly)
+}
+
+/*
+*
 return date style: yyyy-MM-dd HH:mm:ss
 *
 */

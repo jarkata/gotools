@@ -7,24 +7,20 @@ import (
 	"net/http"
 )
 
-type ResponseDTO struct {
+type responseDTO struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data any    `json:"data"`
 }
 
-func newResponseDTO(code int, msg string, data any) ResponseDTO {
-	return ResponseDTO{Code: code, Msg: msg, Data: data}
+func newResponseDTO(code int, msg string, data any) responseDTO {
+	return responseDTO{Code: code, Msg: msg, Data: data}
 }
 
-func newJsonResponse(code int, msg string) []byte {
-	b, _ := json.Marshal(newResponseDTO(code, msg, nil))
-	return b
-}
-func newJsonDataResponse(code int, msg string, data any) []byte {
+func newJsonResponse(code int, msg string, data any) []byte {
 	b, err := json.Marshal(newResponseDTO(code, msg, data))
 	if err != nil {
-		slog.Error("", err)
+		slog.Error("转换为JSON格式数据发生异常", err)
 	}
 	return b
 }
@@ -54,7 +50,7 @@ msg:OK,
 data:null
 */
 func ResponseOK(w http.ResponseWriter) {
-	sendJsonResponse(w, http.StatusOK, newJsonResponse(http.StatusOK, "OK"))
+	sendJsonResponse(w, http.StatusOK, newJsonResponse(http.StatusOK, "OK", nil))
 }
 
 /*
@@ -67,7 +63,7 @@ func ResponseOK(w http.ResponseWriter) {
 *
 */
 func WriteJsonResponse(w http.ResponseWriter, msg any) {
-	b := newJsonDataResponse(http.StatusOK, "success", msg)
+	b := newJsonResponse(http.StatusOK, "success", msg)
 	sendJsonResponse(w, http.StatusOK, b)
 }
 
@@ -80,7 +76,7 @@ msg:errMsg
 data:nil
 */
 func WriteErrorResponse(w http.ResponseWriter, statusCode int, errMsg string) {
-	b := newJsonDataResponse(statusCode, errMsg, nil)
+	b := newJsonResponse(statusCode, errMsg, nil)
 	sendJsonResponse(w, http.StatusOK, b)
 }
 

@@ -1,16 +1,18 @@
 package tid
 
 import (
+	"sync"
 	"time"
 )
 
 var lastTime time.Time
+var mux sync.Mutex
 
 /*
 计算uuid
 1 + 41 +5 + 5 + 12
 */
-var sequece int = 0
+var sequece uint64 = 0
 
 const (
 	yyyyMMddHHmmss      = "20060102150405"
@@ -25,12 +27,13 @@ func GetInitTime() *time.Time {
 	return &t
 }
 
-func New(nodeId int64, workId int64) int64 {
+func New(nodeId uint64, workId uint64) uint64 {
+	mux.Lock()
+	defer mux.Unlock()
 	current := time.Now()
 	if current.Before(lastTime) {
 		current = time.Now()
 	}
-
 	if current.Equal(lastTime) {
 		sequece++
 		if sequece > 4096 {
@@ -42,6 +45,6 @@ func New(nodeId int64, workId int64) int64 {
 	milliTime := current.UnixMilli()
 	lastTime = current
 	//1 + 41 +5 + 5 + 12
-	var uuid = (0 | milliTime<<22 | int64(nodeId)<<17 | int64(workId)<<12 | int64(sequece))
+	var uuid = (0 | uint64(milliTime)<<22 | nodeId<<17 | workId<<12 | sequece)
 	return uuid
 }

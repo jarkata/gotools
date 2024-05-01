@@ -43,6 +43,24 @@ func ReadBody(request io.Reader, target any) error {
 }
 
 /*
+读取请求报文，并转换为结构体
+*/
+func ReadBodyWithLog(request io.Reader, target any) error {
+	body, err := io.ReadAll(request)
+	if err != nil {
+		slog.Error("读取报文发生异常:", err)
+		return err
+	}
+	slog.Info("请求报文", "Body", string(body))
+	err = json.Unmarshal(body, target)
+	if err != nil {
+		slog.Error("解析报文发生异常:", err)
+		return err
+	}
+	return nil
+}
+
+/*
 *
 发送成功消息
 code:200,
